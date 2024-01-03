@@ -1,6 +1,6 @@
 public class Main {
     public static void main (String[] args) {
-        int nums[] = {5,16,2,3,111,18,4};
+        int nums[] = {3,66,11,1,4,5,2};
         int size = nums.length;
         int temp = 0;
         // for selection sort
@@ -62,7 +62,11 @@ public class Main {
         // end of insertion sort
 
         // Quick sort
-        quickSort(nums, 0, size-1);
+//        quickSort(nums, 0, size-1);
+        // end of quick sort
+
+        // Merge sort
+        mergeSort(nums, 0, size-1);
 
         // after sorting]
         System.out.println();
@@ -83,6 +87,60 @@ public class Main {
 
     }
 
+    // merge sort method
+    private static void mergeSort(int[] nums, int l, int r ) {
+        if(l<r) {
+            // Recursive
+            int mid = (l+r)/2;
+            mergeSort( nums, l, mid);
+            mergeSort(nums, mid+1, r);
+            merge(nums, l, mid, r);
+        }
+    }
+
+    // merging the partioned arrays.
+    private static void merge(int[] nums, int l, int mid, int r) {
+        int n1 = mid-l+1;
+        int n2 = r-mid;
+        int lArr[] = new int[n1];
+        int rArr[] = new int[n2];
+
+        for(int x=0;x<n1;x++) {
+            lArr[x] = nums[l+x];
+        }
+        for(int x=0;x<n2;x++) {
+             rArr[x] = nums[mid+1+x];
+        }
+
+        int i=0;
+        int j=0;
+        int k=l;
+
+        while(i<n1 && j<n2) {
+            if(lArr[i] <= rArr[j])
+            {
+                nums[k] = lArr[i];
+                i++;
+            }
+            else {
+                nums[k] = rArr[j];
+                j++;
+            }
+            k++;
+        }
+        while(i<n1) {
+            nums[k] = lArr[i];
+            i++;
+            k++;
+        }
+        while(j<n2) {
+            nums[k] = rArr[j];
+            j++;
+            k++;
+        }
+    }
+    // end of merging
+
     // quick sort method
     private static void quickSort(int[] nums, int low, int high) {
         if (low < high) {
@@ -92,12 +150,14 @@ public class Main {
         }
     }
 
+    // pivot pot for quicksort
     private static  int partion(int[] nums, int low, int high) {
         int pivot = nums[high];
         int i = low - 1;
         for (int j=low; j<high;j++) {
             if (nums[j] < pivot) {
                 i++;
+                // swapping elements
                 int temp = nums[i];
                 nums[i] = nums[j];
                 nums[j] = temp;
@@ -108,6 +168,7 @@ public class Main {
         nums[high] = temp;
         return i + 1;
     }
+    // end of partition for pivot point.
 
     // Linear searching method
     public static int linearSearch(int[] nums, int target) {
